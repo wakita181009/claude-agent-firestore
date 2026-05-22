@@ -1,6 +1,6 @@
 {
   "name": "claude-agent-firestore",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Firestore-backed SessionStore for the Claude Agent SDK",
   "type": "module",
   "main": "./dist/index.js",
