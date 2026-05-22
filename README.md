@@ -5,107 +5,13 @@
 [![codecov](https://codecov.io/gh/wakita181009/claude-agent-firestore/branch/main/graph/badge.svg)](https://codecov.io/gh/wakita181009/claude-agent-firestore)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Firestore-backed `SessionStore` implementation for the [Claude Agent SDK](https://www.npmjs.com/package/@anthropic-ai/claude-agent-sdk).
+Firestore-backed `SessionStore` for the [Claude Agent SDK](https://www.npmjs.com/package/@anthropic-ai/claude-agent-sdk).
 
-Persists session transcripts to Google Cloud Firestore, enabling session resume across container restarts, serverless invocations, and multi-instance deployments.
+## Packages
 
-## Install
-
-```bash
-npm install claude-agent-firestore @google-cloud/firestore @anthropic-ai/claude-agent-sdk
-```
-
-Both `@google-cloud/firestore` and `@anthropic-ai/claude-agent-sdk` are **peer dependencies** — you provide your own versions.
-
-## Usage
-
-```typescript
-import { Firestore } from "@google-cloud/firestore";
-import { startup } from "@anthropic-ai/claude-agent-sdk";
-import { FirestoreSessionStore } from "claude-agent-firestore";
-
-const db = new Firestore({ projectId: "my-gcp-project" });
-const sessionStore = new FirestoreSessionStore(db);
-
-await startup({
-  sessionStore,
-  // ...other options
-});
-```
-
-### Custom collection names
-
-```typescript
-const sessionStore = new FirestoreSessionStore(db, {
-  collectionName: "my_transcripts",      // default: "session_transcripts"
-  entriesCollectionName: "my_entries",   // default: "entries"
-});
-```
-
-## Firestore schema
-
-```
-session_transcripts/{projectKey}:{sessionId}[:{subpath}]
-  └── entries/{uuid | auto-id}
-        ├── entry: SessionStoreEntry   (opaque SDK payload)
-        └── createdAt: Timestamp       (server-generated, used for ordering)
-```
-
-- Document ID under `session_transcripts/` is a composite key from `SessionKey` fields
-- `entries` subcollection stores individual transcript entries in insertion order
-- Entries with a `uuid` use it as the document ID for idempotent writes
-- Entries without a `uuid` (titles, tags, mode markers) get auto-generated IDs
-
-## API
-
-### `FirestoreSessionStore`
-
-Implements the SDK's `SessionStore` interface with two methods:
-
-| Method | Description |
-|--------|-------------|
-| `append(key, entries)` | Batched `set` into the entries subcollection |
-| `load(key)` | `orderBy('createdAt', 'asc')` query on the entries subcollection |
-
-### `FirestoreSessionStoreOptions`
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `collectionName` | `string` | `"session_transcripts"` | Top-level Firestore collection |
-| `entriesCollectionName` | `string` | `"entries"` | Subcollection for transcript entries |
-
-## Development
-
-### Prerequisites
-
-- Node.js >= 22
-- pnpm
-- [Firestore emulator](https://cloud.google.com/firestore/docs/emulator) (for tests)
-
-### Setup
-
-```bash
-pnpm install
-```
-
-### Commands
-
-```bash
-pnpm build        # TypeScript → dist/
-pnpm test         # vitest (requires Firestore emulator on localhost:8080)
-pnpm test:coverage # vitest with coverage
-pnpm typecheck    # tsc --noEmit
-pnpm check        # biome lint & format
-```
-
-### Running tests locally
-
-Start the Firestore emulator, then run the tests:
-
-```bash
-gcloud emulators firestore start --host-port=localhost:8080 --project=test-project &
-pnpm test
-```
+| Package | Description |
+|---------|-------------|
+| [claude-agent-firestore](./packages/claude-agent-firestore) | Firestore SessionStore implementation |
 
 ## License
 
