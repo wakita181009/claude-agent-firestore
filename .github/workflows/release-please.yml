@@ -38,6 +38,10 @@ jobs:
           node-version: 22
           cache: pnpm
           registry-url: https://registry.npmjs.org
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 25
       - run: pnpm install --frozen-lockfile
       - name: Lint & Format
         run: pnpm check
