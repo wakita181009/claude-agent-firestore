@@ -18,12 +18,7 @@
   },
   "formatter": {
     "enabled": true,
-    "indentStyle": "tab"
-  },
-  "json": {
-    "formatter": {
-      "indentStyle": "space",
-      "indentWidth": 2
-    }
+    "indentStyle": "space",
+    "indentWidth": 2
   }
 }
