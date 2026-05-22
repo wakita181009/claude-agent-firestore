@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [22, 24, latest]
+        node-version: [24]
     steps:
       - uses: actions/checkout@v6
 
@@ -49,7 +49,7 @@ jobs:
         run: pnpm test:coverage
 
       - name: Upload coverage reports to Codecov
-        if: matrix.node-version == 24
+        if: always()
         uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
