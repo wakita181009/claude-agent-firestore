@@ -1,9 +1,9 @@
-import type { Firestore, Timestamp } from "@google-cloud/firestore";
 import type {
 	SessionKey,
 	SessionStore,
 	SessionStoreEntry,
 } from "@anthropic-ai/claude-agent-sdk";
+import type { Firestore, Timestamp } from "@google-cloud/firestore";
 import { entryConverter } from "./converter.js";
 import type { FirestoreSessionStoreOptions } from "./types.js";
 
@@ -15,8 +15,7 @@ export class FirestoreSessionStore implements SessionStore {
 	constructor(db: Firestore, options?: FirestoreSessionStoreOptions) {
 		this.db = db;
 		this.collectionName = options?.collectionName ?? "session_transcripts";
-		this.entriesCollectionName =
-			options?.entriesCollectionName ?? "entries";
+		this.entriesCollectionName = options?.entriesCollectionName ?? "entries";
 	}
 
 	async append(key: SessionKey, entries: SessionStoreEntry[]): Promise<void> {
@@ -26,9 +25,7 @@ export class FirestoreSessionStore implements SessionStore {
 		const batch = this.db.batch();
 
 		for (const entry of entries) {
-			const ref = entry.uuid
-				? collection.doc(entry.uuid)
-				: collection.doc();
+			const ref = entry.uuid ? collection.doc(entry.uuid) : collection.doc();
 			batch.set(ref, { entry, createdAt: null as unknown as Timestamp });
 		}
 

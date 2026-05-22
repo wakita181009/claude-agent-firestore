@@ -1,9 +1,9 @@
-import { describe, it, expect, beforeEach } from "vitest";
-import { Firestore } from "@google-cloud/firestore";
 import type {
 	SessionKey,
 	SessionStoreEntry,
 } from "@anthropic-ai/claude-agent-sdk";
+import { Firestore } from "@google-cloud/firestore";
+import { beforeEach, describe, expect, it } from "vitest";
 import { FirestoreSessionStore } from "../src";
 
 const PROJECT_ID = "test-project";
@@ -83,7 +83,7 @@ describe("FirestoreSessionStore", () => {
 
 			expect(result).not.toBeNull();
 			expect(result).toHaveLength(1);
-			expect(result![0]).toMatchObject(entry1);
+			expect(result?.[0]).toMatchObject(entry1);
 		});
 
 		it("persists multiple entries in a batch", async () => {
@@ -91,8 +91,8 @@ describe("FirestoreSessionStore", () => {
 			const result = await store.load(key);
 
 			expect(result).toHaveLength(2);
-			expect(result![0]).toMatchObject(entry1);
-			expect(result![1]).toMatchObject(entry2);
+			expect(result?.[0]).toMatchObject(entry1);
+			expect(result?.[1]).toMatchObject(entry2);
 		});
 
 		it("appends across multiple calls", async () => {
@@ -101,8 +101,8 @@ describe("FirestoreSessionStore", () => {
 			const result = await store.load(key);
 
 			expect(result).toHaveLength(2);
-			expect(result![0]).toMatchObject(entry1);
-			expect(result![1]).toMatchObject(entry2);
+			expect(result?.[0]).toMatchObject(entry1);
+			expect(result?.[1]).toMatchObject(entry2);
 		});
 
 		it("is a no-op for an empty entries array", async () => {
@@ -142,9 +142,9 @@ describe("FirestoreSessionStore", () => {
 			const result2 = await store.load(otherKey);
 
 			expect(result1).toHaveLength(1);
-			expect(result1![0]).toMatchObject(entry1);
+			expect(result1?.[0]).toMatchObject(entry1);
 			expect(result2).toHaveLength(1);
-			expect(result2![0]).toMatchObject(entry2);
+			expect(result2?.[0]).toMatchObject(entry2);
 		});
 
 		it("isolates entries by subpath", async () => {
@@ -155,9 +155,9 @@ describe("FirestoreSessionStore", () => {
 			const result2 = await store.load(keyWithSubpath);
 
 			expect(result1).toHaveLength(1);
-			expect(result1![0]).toMatchObject(entry1);
+			expect(result1?.[0]).toMatchObject(entry1);
 			expect(result2).toHaveLength(1);
-			expect(result2![0]).toMatchObject(entry2);
+			expect(result2?.[0]).toMatchObject(entry2);
 		});
 	});
 
@@ -176,7 +176,7 @@ describe("FirestoreSessionStore", () => {
 			await store.append(key, [richEntry]);
 			const result = await store.load(key);
 
-			expect(result![0]).toMatchObject(richEntry);
+			expect(result?.[0]).toMatchObject(richEntry);
 		});
 	});
 

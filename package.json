@@ -1,15 +1,15 @@
 {
-  "private": true,
-  "scripts": {
-    "build": "pnpm -r build",
-    "test": "pnpm -r test",
-    "test:coverage": "pnpm -r test:coverage",
-    "typecheck": "pnpm -r typecheck",
-    "check": "biome check .",
-    "check:fix": "biome check --write ."
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^2.4.15"
-  },
-  "packageManager": "pnpm@10.33.1"
+	"private": true,
+	"scripts": {
+		"build": "pnpm -r build",
+		"test": "pnpm -r test",
+		"test:coverage": "pnpm -r test:coverage",
+		"typecheck": "pnpm -r typecheck",
+		"check": "biome check .",
+		"check:fix": "biome check --write ."
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.15"
+	},
+	"packageManager": "pnpm@10.33.1"
 }

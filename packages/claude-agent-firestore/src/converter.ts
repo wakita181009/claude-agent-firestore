@@ -1,9 +1,9 @@
+import type { SessionStoreEntry } from "@anthropic-ai/claude-agent-sdk";
 import type {
 	FirestoreDataConverter,
 	Timestamp,
 } from "@google-cloud/firestore";
 import { FieldValue } from "@google-cloud/firestore";
-import type { SessionStoreEntry } from "@anthropic-ai/claude-agent-sdk";
 import type { EntryDocument } from "./types.js";
 
 export const entryConverter: FirestoreDataConverter<EntryDocument> = {
