@@ -7,6 +7,15 @@ import type { Firestore, Timestamp } from "@google-cloud/firestore";
 import { entryConverter } from "./converter.js";
 import type { FirestoreSessionStoreOptions } from "./types.js";
 
+export const DEFAULT_COLLECTION_NAME = "session_transcripts";
+export const DEFAULT_ENTRIES_COLLECTION_NAME = "entries";
+
+export function buildDocId(key: SessionKey): string {
+  const parts = [key.projectKey, key.sessionId];
+  if (key.subpath) parts.push(key.subpath.replaceAll("/", "__"));
+  return parts.join(":");
+}
+
 export class FirestoreSessionStore implements SessionStore {
   private readonly db: Firestore;
   private readonly collectionName: string;
@@ -14,8 +23,9 @@ export class FirestoreSessionStore implements SessionStore {
 
   constructor(db: Firestore, options?: FirestoreSessionStoreOptions) {
     this.db = db;
-    this.collectionName = options?.collectionName ?? "session_transcripts";
-    this.entriesCollectionName = options?.entriesCollectionName ?? "entries";
+    this.collectionName = options?.collectionName ?? DEFAULT_COLLECTION_NAME;
+    this.entriesCollectionName =
+      options?.entriesCollectionName ?? DEFAULT_ENTRIES_COLLECTION_NAME;
   }
 
   async append(key: SessionKey, entries: SessionStoreEntry[]): Promise<void> {
@@ -42,16 +52,10 @@ export class FirestoreSessionStore implements SessionStore {
     return snapshot.docs.map((doc) => doc.data().entry);
   }
 
-  private buildDocId(key: SessionKey): string {
-    const parts = [key.projectKey, key.sessionId];
-    if (key.subpath) parts.push(key.subpath.replaceAll("/", "__"));
-    return parts.join(":");
-  }
-
   private entriesCollection(key: SessionKey) {
     return this.db
       .collection(this.collectionName)
-      .doc(this.buildDocId(key))
+      .doc(buildDocId(key))
       .collection(this.entriesCollectionName)
       .withConverter(entryConverter);
   }
