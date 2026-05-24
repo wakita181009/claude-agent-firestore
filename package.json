@@ -6,10 +6,12 @@
     "test:coverage": "pnpm -r test:coverage",
     "typecheck": "pnpm -r typecheck",
     "check": "biome check .",
-    "check:fix": "biome check --write ."
+    "check:fix": "biome check --write .",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.15"
+    "@biomejs/biome": "^2.4.15",
+    "husky": "^9.1.7"
   },
-  "packageManager": "pnpm@10.33.1"
+  "packageManager": "pnpm@11.2.2"
 }
