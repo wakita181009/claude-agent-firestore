@@ -4,17 +4,6 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    groups:
-      dev-dependencies:
-        dependency-type: "development"
-        update-types:
-          - "minor"
-          - "patch"
-      production-dependencies:
-        dependency-type: "production"
-        update-types:
-          - "minor"
-          - "patch"
     ignore:
       - dependency-name: "@anthropic-ai/claude-agent-sdk"
         update-types:
@@ -27,7 +16,3 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    groups:
-      actions:
-        patterns:
-          - "*"
