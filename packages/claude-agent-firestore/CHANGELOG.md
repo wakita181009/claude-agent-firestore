@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3](https://github.com/wakita181009/claude-agent-firestore/compare/v0.0.2...v0.0.3) (2026-07-09)
+
+
+### Bug Fixes
+
+* **deps:** pin typescript to 7.0.1-rc to pass minimumReleaseAge policy ([#18](https://github.com/wakita181009/claude-agent-firestore/issues/18)) ([a334811](https://github.com/wakita181009/claude-agent-firestore/commit/a334811205cd768ecccfc46858ac1396b8baca30))
+
 ## [0.0.2](https://github.com/wakita181009/claude-agent-firestore/compare/v0.0.1...v0.0.2) (2026-05-24)
 
 
