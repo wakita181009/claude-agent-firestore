@@ -3,6 +3,15 @@
   "version": "0.0.3",
   "description": "Firestore-backed SessionStore for the Claude Agent SDK",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wakita181009/claude-agent-firestore.git",
+    "directory": "packages/claude-agent-firestore"
+  },
+  "bugs": {
+    "url": "https://github.com/wakita181009/claude-agent-firestore/issues"
+  },
+  "homepage": "https://github.com/wakita181009/claude-agent-firestore#readme",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
