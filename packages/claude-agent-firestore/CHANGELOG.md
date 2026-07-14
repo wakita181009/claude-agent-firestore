@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.4](https://github.com/wakita181009/claude-agent-firestore/compare/v0.0.3...v0.0.4) (2026-07-14)
+
+
+### Miscellaneous Chores
+
+* add repository metadata to package.json ([#23](https://github.com/wakita181009/claude-agent-firestore/issues/23))
+* bump claude-agent-sdk to 0.3.206 and typescript to 7.0.2 ([#22](https://github.com/wakita181009/claude-agent-firestore/issues/22))
+
 ## [0.0.3](https://github.com/wakita181009/claude-agent-firestore/compare/v0.0.2...v0.0.3) (2026-07-09)
 
 
