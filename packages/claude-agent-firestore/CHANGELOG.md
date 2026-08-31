@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.6](https://github.com/wakita181009/claude-agent-firestore/compare/v0.0.5...v0.0.6) (2026-08-31)
+
+
+### Bug Fixes
+
+* paginate load, chunk oversized appends, preserve same-batch order ([#48](https://github.com/wakita181009/claude-agent-firestore/issues/48)) ([55a24bd](https://github.com/wakita181009/claude-agent-firestore/commit/55a24bdd970895c972792e095d704e5b012a22a1))
+
 ## [0.0.5](https://github.com/wakita181009/claude-agent-firestore/compare/v0.0.4...v0.0.5) (2026-08-31)
 
 
