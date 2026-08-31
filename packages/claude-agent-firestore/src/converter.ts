@@ -11,6 +11,7 @@ export const entryConverter: FirestoreDataConverter<EntryDocument> = {
     return {
       entry: doc.entry,
       createdAt: FieldValue.serverTimestamp(),
+      idx: doc.idx,
     };
   },
   fromFirestore(snapshot) {
@@ -18,6 +19,8 @@ export const entryConverter: FirestoreDataConverter<EntryDocument> = {
     return {
       entry: data.entry as SessionStoreEntry,
       createdAt: data.createdAt as Timestamp,
+      // Documents written before idx existed sort as 0, keeping query order.
+      idx: (data.idx ?? 0) as number,
     };
   },
 };

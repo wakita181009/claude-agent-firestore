@@ -9,4 +9,5 @@ export interface FirestoreSessionStoreOptions {
 export interface EntryDocument {
   entry: SessionStoreEntry;
   createdAt: Timestamp;
+  idx: number;
 }
