@@ -48,13 +48,15 @@ const sessionStore = new FirestoreSessionStore(db, {
 session_transcripts/{projectKey}:{sessionId}[:{subpath}]
   └── entries/{uuid | auto-id}
         ├── entry: SessionStoreEntry   (opaque SDK payload)
-        └── createdAt: Timestamp       (server-generated, used for ordering)
+        ├── createdAt: Timestamp       (server-generated, used for ordering)
+        └── idx: number                (position within the append call; breaks createdAt ties)
 ```
 
 - Document ID under `session_transcripts/` is a composite key from `SessionKey` fields
 - `entries` subcollection stores individual transcript entries in insertion order
 - Entries with a `uuid` use it as the document ID for idempotent writes
 - Entries without a `uuid` (titles, tags, mode markers) get auto-generated IDs
+- Entries in one `append` batch share a single server timestamp; `idx` preserves their in-batch order (documents written before `idx` existed keep their `createdAt` order)
 
 ## API
 
@@ -64,8 +66,8 @@ Implements the SDK's `SessionStore` interface with two methods:
 
 | Method | Description |
 |--------|-------------|
-| `append(key, entries)` | Batched `set` into the entries subcollection |
-| `load(key)` | `orderBy('createdAt', 'asc')` query on the entries subcollection |
+| `append(key, entries)` | Batched `set` into the entries subcollection, chunked at Firestore's 500-writes-per-batch limit |
+| `load(key)` | Paginated `orderBy('createdAt', 'asc')` query (1000 entries per page), with `idx` breaking same-timestamp ties |
 
 ### `FirestoreSessionStoreOptions`
 

@@ -2,7 +2,7 @@ import type {
   SessionKey,
   SessionStoreEntry,
 } from "@anthropic-ai/claude-agent-sdk";
-import { Firestore } from "@google-cloud/firestore";
+import { Firestore, Timestamp } from "@google-cloud/firestore";
 import { beforeEach, describe, expect, it } from "vitest";
 import { FirestoreSessionStore } from "../src";
 
@@ -158,6 +158,65 @@ describe("FirestoreSessionStore", () => {
       expect(result1?.[0]).toMatchObject(entry1);
       expect(result2).toHaveLength(1);
       expect(result2?.[0]).toMatchObject(entry2);
+    });
+  });
+
+  describe("ordering", () => {
+    it("preserves append order within a single batch regardless of uuid order", async () => {
+      // Same-batch entries share one serverTimestamp; without a tiebreak the
+      // doc-id order (a-, m-, z-) would win and reverse this transcript.
+      const entries: SessionStoreEntry[] = [
+        { type: "user", uuid: "z-first" },
+        { type: "assistant", uuid: "m-second" },
+        { type: "user", uuid: "a-third" },
+      ];
+
+      await store.append(key, entries);
+      const result = await store.load(key);
+
+      expect(result?.map((e) => e.uuid)).toEqual([
+        "z-first",
+        "m-second",
+        "a-third",
+      ]);
+    });
+
+    it("orders legacy documents without idx by createdAt", async () => {
+      const collection = db
+        .collection("session_transcripts")
+        .doc("my-project:session-001")
+        .collection("entries");
+      await collection.doc("uuid-late").set({
+        entry: { type: "user", uuid: "uuid-late" },
+        createdAt: Timestamp.fromMillis(2_000),
+      });
+      await collection.doc("uuid-early").set({
+        entry: { type: "user", uuid: "uuid-early" },
+        createdAt: Timestamp.fromMillis(1_000),
+      });
+
+      const result = await store.load(key);
+
+      expect(result?.map((e) => e.uuid)).toEqual(["uuid-early", "uuid-late"]);
+    });
+  });
+
+  describe("large transcripts", () => {
+    it("appends more than 500 entries in one call and loads more than one page", async () => {
+      // 1100 entries: append must chunk (Firestore caps a batch at 500 writes)
+      // and load must paginate (1000 per page) while preserving append order.
+      const entries: SessionStoreEntry[] = Array.from(
+        { length: 1100 },
+        (_, i) => ({ type: "user", uuid: `u-${i}`, position: i }),
+      );
+
+      await store.append(key, entries);
+      const result = await store.load(key);
+
+      expect(result).toHaveLength(1100);
+      expect(result?.map((e) => e.position)).toEqual(
+        entries.map((e) => e.position),
+      );
     });
   });
 
