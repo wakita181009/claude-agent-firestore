@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.0.5](https://github.com/wakita181009/claude-agent-firestore/compare/v0.0.4...v0.0.5) (2026-08-31)
+
+
+### Bug Fixes
+
+* **deps-dev:** bump @anthropic-ai/claude-agent-sdk ([#46](https://github.com/wakita181009/claude-agent-firestore/issues/46)) ([6d37d18](https://github.com/wakita181009/claude-agent-firestore/commit/6d37d18a65a569317e59a97f2e338093306f81a2))
+* **deps-dev:** bump @google-cloud/firestore from 8.6.0 to 8.7.1 ([#39](https://github.com/wakita181009/claude-agent-firestore/issues/39)) ([dc6bdb0](https://github.com/wakita181009/claude-agent-firestore/commit/dc6bdb0377ae13e940899d7298c522cf671dbc1c))
+* **deps-dev:** bump @vitest/coverage-v8 from 4.1.10 to 4.1.11 ([#45](https://github.com/wakita181009/claude-agent-firestore/issues/45)) ([b498671](https://github.com/wakita181009/claude-agent-firestore/commit/b498671064aea06c1b033eb0d3a6555d6a762b2c))
+* **deps-dev:** bump vitest from 4.1.10 to 4.1.11 ([#43](https://github.com/wakita181009/claude-agent-firestore/issues/43)) ([e970f5c](https://github.com/wakita181009/claude-agent-firestore/commit/e970f5c47cb60746bb4cd450bc9c4a4fe2eb26a8))
+
 ## [0.0.4](https://github.com/wakita181009/claude-agent-firestore/compare/v0.0.3...v0.0.4) (2026-07-14)
 
 
